@@ -6,7 +6,7 @@ from training_data.basic_queries import basic_conversational_queries as basic_qu
 import google.generativeai as ai;
 
 confidence_threshold = 0.5
-api = "AIzaSyC9BSABCvD9c-_684FTP9tj3OVSohqRXe0"    #add your api code here! go to 'aistudio.google.com'
+api = ""    #add your api code here! go to 'aistudio.google.com'
 
 # --- remove the below 10th line to 16th line before executing lines ---
 if api == '':
