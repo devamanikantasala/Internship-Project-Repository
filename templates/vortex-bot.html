@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex-BOT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Poetsen+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-for-vortex-bot(html).css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/computer.png') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">Vortex-bot</a>
+        
+        <nav class="navbar">
+            <a href="{{ url_for('static', filename='sites/interactive-sessions.html') }}" title="During our internship we collected a few snapshots of our interactive sessions that are present here!" target="_blank">Interactive Sessions</a>
+            <a href="https://github.com/devamanikantasala/Internship-All-Resources/tree/main/" target="_blank" title="Redirects you to view the source-code of this project in github">Source-Code</a>
+            <!-- <a href="#">Contact</a> -->
+            <a href="https://github.com/devamanikantasala/Internship-All-Resources.git" target="_blank" title="This link redirects you to our git-hub repository that contains all our work of our internship as organized"><img src="{{ url_for('static', filename='images/GitHub_Logo (1).png') }}" alt="Github Logo"> Repository</a>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="input-container">
+                <input type="text" id="user-input" placeholder="Chat Something...😇">
+                <button id="send-btn" onclick="sendMessage()"><img src="{{ url_for('static', filename='images/send.png') }}" alt="send_icon"></button>
+            </div>
+        </div>
+        <img src="{{ url_for('static', filename='images/chatbot_background_removed.png') }}" alt="chatbot" id="chatbot-image">
+    </main>
+
+    <script>
+        function sendMessage() {
+            var user_input = document.getElementById('user-input').value;
+            if (user_input.trim() !== '') {
+                sendRequest(user_input);
+            }
+        }
+
+        function sendRequest(user_input) {
+            fetch('/get_response', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'user_input=' + encodeURIComponent(user_input)
+            })
+            .then(response => response.text())
+            .then(data => {
+                updateChat(data);
+            });
+        }
+
+        function updateChat(response) {
+            var chatBox = document.getElementById('chat-box');
+            var userMessage = document.getElementById('user-input').value;
+
+            // Convert the Markdown response to HTML using marked
+            // response = marked(response);
+
+            chatBox.innerHTML += '<div class="message user"><div class="text"><strong>You:</strong> ' + marked.parse(userMessage) + '</div></div>';
+            chatBox.innerHTML += '<div class="message chatbot"><div class="text" style=\"margin-left: 10px;\"><strong>Vortex:</strong>' + marked.parse(response) + '</div></div>';
+
+            document.getElementById('user-input').value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Add event listener for "Enter" key press
+        document.getElementById('user-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
