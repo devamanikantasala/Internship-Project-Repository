@@ -39,7 +39,7 @@ This project showcases a generative AI themed chatbot application built using Ch
 
 * The Chatterbot framework handles the core conversation logic, including pattern matching and response generation.
 * Flask powers the web server, enabling users to interact with the chatbot through the interface.
-* The Gemini API integration (if applicable) allows the chatbot to retrieve information from external sources and incorporate it into its responses.
+* The Gemini API integration allows the chatbot to retrieve information from external sources and incorporate it into its responses.
 * The HTML and CSS interface presents a user-friendly platform for interacting with the chatbot via text input and output.
 
 ## Further Development
